@@ -5,7 +5,7 @@
 - 上课时间：**每周一 15:55-17:30** 和 **每周三 7:50-9:25**
 - 教室：**3A110**
 - 讲师：[**邢凯**](mailto:kxing@ustc.edu.cn)
-- 助教：[**罗嘉宏**](mailto:luojh@ustclug.org) [**吕祖灿**](mailto:zucanlv@mail.ustc.edu.cn) 
+- 助教：[**罗嘉宏**](mailto:luojh@mail.ustc.edu.cn) ([USTCLUG 邮箱](mailto:luojh@ustclug.org)，推荐使用前一个邮箱联系) [**吕祖灿**](mailto:zucanlv@mail.ustc.edu.cn) 
 - 考核方式：开卷笔试
 <!-- - 分数组成：作业/实验（20%）+ 期末考试（30%）+ 大作业/组队实验（50%） -->
 
