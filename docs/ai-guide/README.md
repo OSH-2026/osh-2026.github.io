@@ -10,9 +10,4 @@
 | 二 | 工具 | IDE/Agent、模型路由、Agent 框架与可观测性工具（eBPF/trace） |
 | 三 | 规范 | PIP 三段式（Plan→Implementation→Proof）与“允许但需可审计” |
 
-## 快速开始（推荐做法）
-
-- **先选模型层**：阅读/总结/设计优先用长上下文；写 patch 用强工程模型；解释/证明用 reasoning 强且可验证结论的模型。
-- **再定工具链**：推荐 Cursor 为主；需要 Agent 框架时优先“安全默认值”；并把 trace 当作证据链的一部分。
-- **最后按 PIP 交付**：提交里要看得到 Plan、实现的可审阅 patch、以及 Proof 的测试/复现/观测证据。
 
