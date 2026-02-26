@@ -1,7 +1,7 @@
 # 常见问题
 
 往年的主页及 FAQ 亦可作参考。
-[OSH-2025](https://osh-2025.github.io/), [OSH-2024](https://osh-2024.github.io/)，[OSH-2023](https://osh-2023.github.io/)，[OSH-2022](https://osh-2022.github.io/)。
+[OSH-2025](https://osh-2025.github.io/)，[OSH-2024](https://osh-2024.github.io/)，[OSH-2023](https://osh-2023.github.io/)，[OSH-2022](https://osh-2022.github.io/)。
 
 ## 如何提问？
 
@@ -18,5 +18,5 @@
 
 - 参考邢老师在课上给出的选题推荐；
 - 参考往年OSH组织内的各大作业项目；
-- 参考近年 HotOS 论文（[HotOS XIX](https://sigops.org/s/conferences/hotos/2023/)，[HotOS XVIII](https://sigops.org/s/conferences/hotos/2021/)）；
+- 参考近年顶级会议论文；
 - 参考目标应用的开发者大会前沿主题（例如 KubeCon）。
