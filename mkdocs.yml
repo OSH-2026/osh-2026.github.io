@@ -1,0 +1,62 @@
+site_name: USTC OSH 2025 课程主页
+repo_name: OSH-2025/OSH-2025.github.io
+repo_url: https://github.com/OSH-2025/OSH-2025.github.io
+theme:
+  name: material
+  language: zh
+  features:
+    - content.code.copy
+    - navigation.footer
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - markdown.extensions.def_list
+  - mdx_truly_sane_lists
+  - toc:
+      permalink: true
+      slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+extra_css:
+  # Borrow CSS from Linux 101 still
+  - 'https://101.ustclug.org/css/extra.css'
+nav:
+  - 首页: README.md
+  - 实验零:
+      - 零：简介: lab0/README.md
+      - 一：Linux: lab0/linux.md
+      - 二：Git: lab0/git.md
+      - 三：Markdown: lab0/markdown.md
+      - 四：Makefile: lab0/makefile.md
+      - 五：编程说明: lab0/programming.md
+  - 实验一:
+      - 零：简介: lab1/README.md
+      - 一：Linux 编译: lab1/phase1.md
+      - 二：创建初始内存盘: lab1/phase2.md
+      - 三：添加自定义系统调用: lab1/phase3.md
+  - 实验二:
+      - 零：简介: lab2/README.md
+      - 一：目录导航: lab2/dir.md
+      - 二：管道: lab2/pipe.md
+      - 三：重定向: lab2/redirection.md
+      - 四：信号处理: lab2/signal.md
+      - 五：前后台进程: lab2/fgbg.md
+      - 六：「可选」拓展功能: lab2/optional.md
+  - 实验三:
+      - 零：简介: lab3/README.md
+      - 一：HTTP&socket 简介: lab3/intro.md
+      - 二：必做部分: lab3/required.md
+      - 三：选做部分: lab3/optional.md
+      - 四：测试及评分: lab3/score.md
+  - 实验四:
+      - 零：简介: lab4/README.md
+      - 一：Ray: lab4/ray.md
+      - 二：Ceph: lab4/ceph.md
+      - 三：Llama_cpp: lab4/llama_cpp.md
+  - FAQ: faq/README.md
+extra_javascript:
+  - mathjax-config.js
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  - '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
