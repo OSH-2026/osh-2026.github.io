@@ -31,30 +31,30 @@ nav:
       - 三：Markdown: lab0/markdown.md
       - 四：Makefile: lab0/makefile.md
       - 五：编程说明: lab0/programming.md
-  - 实验一:
-      - 零：简介: lab1/README.md
-      - 一：Linux 编译: lab1/phase1.md
-      - 二：创建初始内存盘: lab1/phase2.md
-      - 三：添加自定义系统调用: lab1/phase3.md
-  - 实验二:
-      - 零：简介: lab2/README.md
-      - 一：目录导航: lab2/dir.md
-      - 二：管道: lab2/pipe.md
-      - 三：重定向: lab2/redirection.md
-      - 四：信号处理: lab2/signal.md
-      - 五：前后台进程: lab2/fgbg.md
-      - 六：「可选」拓展功能: lab2/optional.md
-  - 实验三:
-      - 零：简介: lab3/README.md
-      - 一：HTTP&socket 简介: lab3/intro.md
-      - 二：必做部分: lab3/required.md
-      - 三：选做部分: lab3/optional.md
-      - 四：测试及评分: lab3/score.md
-  - 实验四:
-      - 零：简介: lab4/README.md
-      - 一：Ray: lab4/ray.md
-      - 二：Ceph: lab4/ceph.md
-      - 三：Llama_cpp: lab4/llama_cpp.md
+  # - 实验一:
+  #     - 零：简介: lab1/README.md
+  #     - 一：Linux 编译: lab1/phase1.md
+  #     - 二：创建初始内存盘: lab1/phase2.md
+  #     - 三：添加自定义系统调用: lab1/phase3.md
+  # - 实验二:
+  #     - 零：简介: lab2/README.md
+  #     - 一：目录导航: lab2/dir.md
+  #     - 二：管道: lab2/pipe.md
+  #     - 三：重定向: lab2/redirection.md
+  #     - 四：信号处理: lab2/signal.md
+  #     - 五：前后台进程: lab2/fgbg.md
+  #     - 六：「可选」拓展功能: lab2/optional.md
+  # - 实验三:
+  #     - 零：简介: lab3/README.md
+  #     - 一：HTTP&socket 简介: lab3/intro.md
+  #     - 二：必做部分: lab3/required.md
+  #     - 三：选做部分: lab3/optional.md
+  #     - 四：测试及评分: lab3/score.md
+  # - 实验四:
+  #     - 零：简介: lab4/README.md
+  #     - 一：Ray: lab4/ray.md
+  #     - 二：Ceph: lab4/ceph.md
+  #     - 三：Llama_cpp: lab4/llama_cpp.md
   - AI-Native Guide（模型、工具、规范）:
       - 零：简介: ai-guide/README.md
       - 一：模型: ai-guide/models.md
