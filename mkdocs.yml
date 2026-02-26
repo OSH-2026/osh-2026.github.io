@@ -1,6 +1,6 @@
-site_name: USTC OSH 2025 课程主页
-repo_name: OSH-2025/OSH-2025.github.io
-repo_url: https://github.com/OSH-2025/OSH-2025.github.io
+site_name: USTC OSH 2026 课程主页
+repo_name: OSH-2026/OSH-2026.github.io
+repo_url: https://github.com/OSH-2026/OSH-2026.github.io
 theme:
   name: material
   language: zh
@@ -55,6 +55,11 @@ nav:
       - 一：Ray: lab4/ray.md
       - 二：Ceph: lab4/ceph.md
       - 三：Llama_cpp: lab4/llama_cpp.md
+  - AI-Native Guide（模型、工具、规范）:
+      - 零：简介: ai-guide/README.md
+      - 一：模型: ai-guide/models.md
+      - 二：工具: ai-guide/tools.md
+      - 三：规范: ai-guide/standards.md
   - FAQ: faq/README.md
 extra_javascript:
   - mathjax-config.js
