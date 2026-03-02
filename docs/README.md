@@ -55,3 +55,7 @@
 教材：《操作系统概念》亚伯拉罕·西尔伯沙茨、彼得 B. 高尔文著 郑扣根译 机械工业出版社 201807
 
 参考书：_Operating Systems Design & Implementation_ A.S. Tanenbaun, etc. ISBN-10: 0136386776 Prentice Hall
+
+Agent进阶使用参考(提升你的cursor效率)：
+
+1. [skills](https://www.runoob.com/ai-agent/skills-agent.html)
