@@ -2,6 +2,8 @@
 
 我们 **强烈建议** 同学们使用 Markdown 撰写实验报告。因此，本节将推荐一些好用的 Markdown 编辑器，并介绍一些 Markdown 常用语法。如果你已有用着顺手的编辑器并掌握了基本语法，可以直接开始练习。
 
+如果你想看看一份 Markdown 文档长什么样，可以看看本页面的[源代码](https://github.com/OSH-2026/osh-2026.github.io/blob/main/docs/lab0/markdown.md)，并与本页面的展示内容比对。
+
 ## Markdown 编辑器
 
 - Typora：支持 Windows，OS X 和 Linux，支持即时渲染以及多种文档格式转换
