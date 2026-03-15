@@ -216,7 +216,7 @@ Deleted branch dev (was b17d20e).
 
 ???+ warning "注意"
 
-    learn_git 仓库不是实验需要提交的 osh-2025-labs 仓库，仅供自行练习。
+    learn_git 仓库不是实验需要提交的 osh-2026-labs 仓库，仅供自行练习。
 
 在本地的 `learn_git` 仓库下运行命令：
 
@@ -315,7 +315,7 @@ hint: See the 'Note about fast-forwards' in 'git push --help' for details.
   ...
   ```
 
-- **「必做」**在你自己的账号下（而不是 OSH-2025 组织）创建一个新的、**私有的** GitHub 远程仓库，将其命名为 osh-2025-labs，然后邀请三位助教（id 分别为：Odeinjul，fengli1702，xxxxxyang）成为这个仓库的共同贡献者（collaborators），以便后续实验的批改。
+- **「必做」**在你自己的账号下（而不是 OSH-2026 组织）创建一个新的、**私有的** GitHub 远程仓库，将其命名为 osh-2026-labs，然后邀请三位助教（id 分别为：Odeinjul，fengli1702，xxxxxyang）成为这个仓库的共同贡献者（collaborators），以便后续实验的批改。
 
 ???+ question "我现在需要提交什么？"
 
