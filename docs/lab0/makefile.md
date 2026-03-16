@@ -247,7 +247,7 @@ void bubbleSort(std::vector<int>& arr);
 **「选做」**
 
 1. 请你参考 C++的宏机制以及 g++的编译选项，在 Makefile 中加入一段代码，以及对 cpp 源代码进行适当修改（提示：使用条件编译），来打印出冒泡排序中每次交换元素之后的 vector 的值。
-2. 用 `cmake` 自动生成 `Makefile`，完成项目的编译，可以不改变项目的目录结构。(`CMakeLists.txt`的语法可参考https://www.runoob.com/cmake/cmake-basic.html)
+2. 用 `cmake` 自动生成 `Makefile`，完成项目的编译，可以不改变项目的目录结构。**注意这一选做项并不意味着你可以不完成前面手工编写 Makefile 的必做项目；如果你选做本项，请先把之前手写的 Makefile 重命名为类似 Makefile.old 这样的名称，方便区分和检查。**(`CMakeLists.txt`的语法可参考https://www.runoob.com/cmake/cmake-basic.html)
 
 **要求：**
 
