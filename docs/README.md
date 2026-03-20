@@ -12,6 +12,7 @@
 ## 公告
 
 - 2026-02-26：欢迎来到 OSH 2026！新同学请在群中联系助教，提供GitHub用户名以加入 GitHub 组织 OSH-2026 来完成之后的作业提交。
+- 2026-03-20：请在2026-03-29前完成[问卷](https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAXRdSy9UQlI0MFQ4U1VTWUg2SzBJSTVEVUs5WjdSSC4u)，以便助教收集作业。
 <!-- - 2026-03-03：实验零已发布，截止日期：2026 年 3 月 10 日晚 23:59。
 - 2026-03-22：实验一已发布，截止日期：2026 年 3 月 30 日晚 23:59。
 - 2026-04-02：实验二已发布，截止日期：2026 年 4 月 20 日晚 23:59。
