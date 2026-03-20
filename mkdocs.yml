@@ -1,27 +1,68 @@
 site_name: USTC OSH 2026 课程主页
 repo_name: OSH-2026/OSH-2026.github.io
 repo_url: https://github.com/OSH-2026/OSH-2026.github.io
+
 theme:
-  name: material
-  language: zh
+  name: "material"
+  language: "zh"
+  font: false
+  palette:
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换至深色模式
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: 切换至浅色模式
+  icon:
+    repo: octicons/mark-github-16
   features:
     - content.code.copy
+    - content.tooltips
     - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+
+plugin:
+  - search
+  - offline
+  - privacy
+
 markdown_extensions:
   - admonition
   - attr_list
-  - codehilite
   - footnotes
   - pymdownx.details
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.arithmatex:
+      generic: true
   - pymdownx.superfences
   - markdown.extensions.def_list
-  - mdx_truly_sane_lists
   - toc:
       permalink: true
-      slugify: !!python/name:markdown.extensions.toc.slugify_unicode
+
 extra_css:
   # Borrow CSS from Linux 101 still
   - 'https://101.ustclug.org/css/extra.css'
+
 nav:
   - 首页: README.md
   - 实验零:
@@ -61,7 +102,15 @@ nav:
       - 二：工具: ai-guide/tools.md
       - 三：规范: ai-guide/standards.md
   - FAQ: faq/README.md
+
 extra_javascript:
-  - mathjax-config.js
-  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-  - '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
+  # [数学公式支持]
+  # https://squidfunk.github.io/mkdocs-material/reference/math/#katex
+  - mkdocs/javascripts/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+extra_css:
+  # [数学公式支持]
+  # https://squidfunk.github.io/mkdocs-material/reference/math/#katex
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
