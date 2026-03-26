@@ -1,8 +1,8 @@
-# 构建 RISCV-64 Linux 内核
+# 构建 RISC-V 64 Linux 内核和 Busybox
 
 ## 环境准备
 
-使用了 Vlab 的 Ubuntu 24.04 LXC 虚拟环境。
+建议使用 Vlab 的 Ubuntu 24.04 LXC 虚拟环境。
 
 更新并安装所需的软件：
 
@@ -45,7 +45,7 @@ git clean -fdx
 make defconfig
 ```
 
-然后，由于 Qemu 里面没有什么设备，因此不需要编译很多驱动程序。因此只保留我们需要的。这里可以使用 `make menuconfig` 来进行交互式的配置，但是由于需要修改的地方比较多，交互式操作可能不太方便。所以，使用 `config` 切片来完成配置。编写 `qemu.config` 并填入下面的内容：
+然后，由于 QEMU 里面没有什么设备，因此不需要编译很多驱动程序，只保留我们需要的即可。这里可以使用 `make menuconfig` 来进行交互式的配置，但是由于需要修改的地方比较多，交互式操作可能不太方便。所以，使用配置切片（config fragment）来完成配置。在 Linux 源代码根目录下编写 `qemu.config` 并填入下面的内容：
 
 ```plain
 CONFIG_SERIAL_8250=y
@@ -66,9 +66,10 @@ CONFIG_CC_OPTIMIZE_FOR_SIZE=y
 
 ### 构建
 
-接下来将它合并到 `defconfig` 中并且开始编译：
+接下来将它合并到当前的 `.config` 中并且开始编译：
 
 ```shell
+scripts/kconfig/merge_config.sh .config qemu.config
 make olddefconfig
 make -j$(nproc)
 ```
@@ -104,7 +105,7 @@ $ file vmlinux
 vmlinux: ELF 64-bit LSB shared object, UCB RISC-V, RVC, soft-float ABI, version 1 (SYSV), dynamically linked, BuildID[sha1]=618e9ee6b09fff369073f9dc28538a44cfcb5b3e, not stripped
 ```
 
-这说明我们的交叉编译是正确的，产物 `vmlinux` 确实是 RISCV-64 架构的二进制文件。
+这说明我们的交叉编译是正确的，产物 `vmlinux` 确实是 RISC-V 64 架构的二进制文件。
 
 ### 构建 `initramfs` 和 Busybox
 
@@ -114,18 +115,26 @@ vmlinux: ELF 64-bit LSB shared object, UCB RISC-V, RVC, soft-float ABI, version 
 mkdir -p rootfs/{bin,sbin,proc,sys,usr/bin,usr/sbin}
 ```
 
-然后，获取 Busybox 的源代码：
+然后，获取 Busybox 的源代码并进入源码目录：
 
 ```shell
 git clone --depth 1 https://git.busybox.net/busybox.git
+cd busybox
 ```
 
-你可以使用 `make menuconfig` 来进行交互式的配置。需要配置的有：
+先生成默认配置，再使用 `make menuconfig` 来进行交互式的配置：
+
+```shell
+make defconfig
+make menuconfig
+```
+
+需要配置的有：
 
 - 选中 Settings -> Build static binary，确保产物是静态链接的；
 - 取消选中 Networking Utilities 下的所有选项；
 
-然后使用 `make` 构建。构建完成后，产物应该具有如下的信息：
+保存退出后，使用 `make -j$(nproc)` 构建（之前导出的 `CROSS_COMPILE` 环境变量会自动生效）。构建完成后，产物应该具有如下的信息：
 
 ```shell
 $ file busybox_unstripped
@@ -138,7 +147,11 @@ busybox_unstripped: ELF 64-bit LSB executable, UCB RISC-V, RVC, double-float ABI
 make CONFIG_PREFIX=../rootfs install
 ```
 
-将 Busybox 安装到你的 Initramfs 中。
+将 Busybox 安装到你的 Initramfs 中。安装完成后，回到 Linux 源代码根目录：
+
+```shell
+cd ..
+```
 
 然后，创建 `init` 程序，这样我们才能让内核创建第一个进程：
 
