@@ -40,6 +40,10 @@ sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev
 
     [Linux 用户协会](https://lug.ustc.edu.cn) 提供了 Linux 内核源代码的镜像，Git 仓库的地址是 [https://mirrors.ustc.edu.cn/linux.git](https://mirrors.ustc.edu.cn/linux.git)，使用说明见[这里](https://mirrors.ustc.edu.cn/help/linux.git.html)。
 
+!!!+ warning "不要提交 Linux 源代码到你的作业仓库"
+
+    Linux 内核源代码非常巨大，助教在检查实验时只关注你在上面有所改动的部分，因此不要将 Linux 源代码提交到你的作业仓库中。
+
 **请在 AMD64 架构下的 Linux 环境中进行编译**。如果你使用的设备是 Apple M 系列处理器、架构为 ARM，请使用 Vlab 完成实验。
 
 下载好 linux-6.19.10.tar.xz 文件后，解压缩为文件夹 linux-6.19.10，进入后创建默认配置：
