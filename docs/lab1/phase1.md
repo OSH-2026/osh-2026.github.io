@@ -40,7 +40,7 @@ sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev
 
     [Linux 用户协会](https://lug.ustc.edu.cn) 提供了 Linux 内核源代码的镜像，Git 仓库的地址是 [https://mirrors.ustc.edu.cn/linux.git](https://mirrors.ustc.edu.cn/linux.git)，使用说明见[这里](https://mirrors.ustc.edu.cn/help/linux.git.html)。
 
-!!!+ warning "不要提交 Linux 源代码到你的作业仓库"
+!!! warning "不要提交 Linux 源代码到你的作业仓库"
 
     Linux 内核源代码非常巨大，助教在检查实验时只关注你在上面有所改动的部分，因此不要将 Linux 源代码提交到你的作业仓库中。
 
@@ -78,7 +78,7 @@ make -j $((`nproc`-1))
     - 此次实验不是调参比赛，**满分可以在只修改前两层选项的情况下轻松达成**，请注意哪些选项是能够真正地、切实地影响编译后的内核大小的；
     - **「可选」** 交叉编译生成其他目标平台的 Linux 内核的方法请自行搜索。
 
-如果编译成功，我们可以在 `linux-6.13.7/arch/x86_64/boot/` 下看到一个 `bzImage` 文件，这个文件就是内核镜像文件。可以使用 QEMU 进行测试：
+如果编译成功，我们可以在 `linux-6.19.10/arch/x86_64/boot/` 下看到一个 `bzImage` 文件，这个文件就是内核镜像文件。可以使用 QEMU 进行测试：
 
 ```bash
 qemu-system-x86_64 -kernel arch/x86_64/boot/bzImage
