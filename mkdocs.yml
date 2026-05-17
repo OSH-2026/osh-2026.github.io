@@ -93,11 +93,11 @@ nav:
       - 二：必做部分: lab3/required.md
       - 三：选做部分: lab3/optional.md
       - 四：测试及评分: lab3/score.md
-  # - 实验四:
-  #     - 零：简介: lab4/README.md
-  #     - 一：Ray: lab4/ray.md
-  #     - 二：Ceph: lab4/ceph.md
-  #     - 三：Llama_cpp: lab4/llama_cpp.md
+  - 实验四:
+      - 零：简介: lab4/README.md
+      - 一：llama.cpp 主线任务: lab4/llama_cpp.md
+      - 二：Ray 选择性必做: lab4/ray.md
+      - 三：Ceph 选择性必做: lab4/ceph.md
   - AI-Native Guide:
       - 零：简介: ai-guide/README.md
       - 一：模型: ai-guide/models.md
