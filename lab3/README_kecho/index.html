@@ -1,0 +1,2383 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>内核态 Echo Server 实验文档 - USTC OSH 2026 课程主页</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#echo-server" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="USTC OSH 2026 课程主页" class="md-header__button md-logo" aria-label="USTC OSH 2026 课程主页" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            USTC OSH 2026 课程主页
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              内核态 Echo Server 实验文档
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换至深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="切换至浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/OSH-2026/OSH-2026.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.01 8.01 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27s-1.36.09-2 .27c-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OSH-2026/OSH-2026.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="USTC OSH 2026 课程主页" class="md-nav__button md-logo" aria-label="USTC OSH 2026 课程主页" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    USTC OSH 2026 课程主页
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/OSH-2026/OSH-2026.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0c4.42 0 8 3.58 8 8a8.01 8.01 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27s-1.36.09-2 .27c-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OSH-2026/OSH-2026.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../lab0/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验零
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    实验零
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一：Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    二：Git
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    三：Markdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/makefile/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    四：Makefile
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab0/programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    五：编程说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../lab1/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验一
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    实验一
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/phase1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一：Linux 编译
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/phase2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    二：创建初始内存盘
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/phase3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    三：添加自定义系统调用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/riscv64-kernel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    四：「可选」RV64交叉编译与Busybox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../lab2/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验二
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    实验二
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/dir/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一：目录导航
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/pipe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    二：管道
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/redirection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    三：重定向
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/signal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    四：信号处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/fgbg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    五：前后台进程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/sudo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    六：su/sudo 用户切换
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/optional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    七：「可选」拓展功能
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验三
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    实验三
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一：HTTP&socket 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../required/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    二：必做部分
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    三：选做部分
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../score/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    四：测试及评分
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../lab4/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验四
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    实验四
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/llama_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一：llama.cpp 主线任务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/ray/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    二：Ray 选择性必做
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    三：Ceph 选择性必做
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Native Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI-Native Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai-guide/models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    一：模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai-guide/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    二：工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai-guide/standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    三：规范
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 实验目标
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 这个实验在做什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 适合谁做
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 实验环境
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 项目文件说明
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 实验原理概览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 实验原理概览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 模块加载后发生了什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 客户端连接后发生了什么
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-prockecho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 为什么还要看 /proc/kecho
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 实验步骤
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. 实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 编译实验代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 加载内核模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 观察内核日志
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-prockecho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 查看 /proc/kecho
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 运行用户态客户端测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 再次查看日志和统计信息
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#77" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 卸载模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 一次完整实验可以这样做
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 做实验时你应该关注什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 实验中会用到哪些 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 模块生命周期相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 内核网络相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 内核线程相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-procfs-seq_file-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 procfs 和 seq_file 相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 同步与共享数据相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#106-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.6 字符串和内存处理 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#107-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.7 日志和错误处理相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#108-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.8 用户态客户端相关 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#109" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.9 阅读源码时的建议顺序
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 常见问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. 常见问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-make" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 make 失败，提示找不到内核头文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-insmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 insmod 失败，提示权限不足
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.3 客户端连接失败
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-prockecho" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.4 /proc/kecho 不存在
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 实验结论
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 可选思考题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="echo-server">内核态 Echo Server 实验文档<a class="headerlink" href="#echo-server" title="Permanent link">&para;</a></h1>
+<h2 id="1">1. 实验目标<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>这个实验的目标，是让你亲手完成一次最基础的 Linux 内核网络实验：</p>
+<ol>
+<li>编译一个内核模块。</li>
+<li>将模块加载进内核。</li>
+<li>在内核态创建一个 TCP Echo Server。</li>
+<li>用用户态客户端连接它并发送消息。</li>
+<li>通过 <code>dmesg</code> 和 <code>/proc/kecho</code> 观察模块运行状态。</li>
+</ol>
+<p>如果实验成功，你会看到这样一个现象：用户态客户端发出去什么字符串，内核态服务器就原样返回什么字符串。</p>
+<h2 id="2">2. 这个实验在做什么<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>平时我们写的网络程序大多运行在用户态，比如用 <code>socket</code>、<code>bind</code>、<code>listen</code>、<code>accept</code> 写一个普通 TCP 服务端。本实验把这个过程搬到了内核态。</p>
+<p>模块加载后会做三件事：</p>
+<ol>
+<li>在内核里创建监听 socket，并绑定到 <code>0.0.0.0:8888</code>。</li>
+<li>启动一个内核线程，循环等待客户端连接。</li>
+<li>收到客户端消息后，把消息再发送回去，也就是 echo。</li>
+</ol>
+<p>为了方便观察，模块还提供了两种调试手段：</p>
+<ol>
+<li>通过 <code>dmesg</code> 打印连接、收包、断开等日志。</li>
+<li>通过 <code>/proc/kecho</code> 输出统计信息，例如连接次数、收发包次数、最近一次消息内容。</li>
+</ol>
+<h2 id="3">3. 适合谁做<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>这份文档面向初学者。如果你只具备下面这些基础，就可以开始：</p>
+<ol>
+<li>知道什么是 Linux 命令行。</li>
+<li>知道 C 语言最基本的编译过程。</li>
+<li>大概知道用户态和内核态的区别。</li>
+</ol>
+<p>如果你还没有学过 Linux 内核模块，也没关系。本实验正适合作为入门练习。</p>
+<h2 id="4">4. 实验环境<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>建议环境：</p>
+<ol>
+<li>Debian 12 或兼容的 Linux 发行版。</li>
+<li>Linux Kernel 5.x 及以上。</li>
+<li>当前内核版本对应的头文件已经安装。</li>
+<li>具有 <code>sudo</code> 权限。</li>
+</ol>
+<p>先安装依赖：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>build-essential<span class="w"> </span>linux-headers-<span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span>
+</code></pre></div>
+<h2 id="5">5. 项目文件说明<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<p>项目中你主要关心下面几个文件：</p>
+<div class="highlight"><pre><span></span><code>.
+├── Makefile
+├── README.md
+├── client.c
+└── kecho.c
+</code></pre></div>
+<p>它们的作用分别是：</p>
+<ol>
+<li><code>kecho.c</code>：内核模块主体。负责创建内核态 TCP 服务器、处理客户端连接、维护统计信息、注册 <code>/proc/kecho</code>。</li>
+<li><code>client.c</code>：用户态测试程序。用于连接 <code>127.0.0.1:8888</code>，发送消息，并打印服务器返回的内容。</li>
+<li><code>Makefile</code>：同时编译内核模块 <code>kecho.ko</code> 和用户态客户端 <code>client</code>。</li>
+<li><code>README.md</code>：实验说明文档，也就是你现在看到的这份文档。</li>
+</ol>
+<h2 id="6">6. 实验原理概览<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<p>这部分不展开讲源码细节，只建立一个整体认识。做实验前，你至少要知道每部分在做什么。</p>
+<h3 id="61">6.1 模块加载后发生了什么<a class="headerlink" href="#61" title="Permanent link">&para;</a></h3>
+<p>模块初始化函数会先启动服务器，再创建 <code>/proc/kecho</code>，最后启动一个内核线程负责 <code>accept</code>。</p>
+<p>你可以把它理解成下面这个流程：</p>
+<div class="highlight"><pre><span></span><code>加载模块
+    -&gt; 创建内核 socket
+    -&gt; bind 到 0.0.0.0:8888
+    -&gt; listen
+    -&gt; 创建 /proc/kecho
+    -&gt; 启动 accept 线程
+</code></pre></div>
+<h3 id="62">6.2 客户端连接后发生了什么<a class="headerlink" href="#62" title="Permanent link">&para;</a></h3>
+<p>当用户态客户端执行 <code>./client hello</code> 时：</p>
+<ol>
+<li>客户端连接到 <code>127.0.0.1:8888</code>。</li>
+<li>内核线程接受连接。</li>
+<li>服务器接收字符串 <code>hello</code>。</li>
+<li>服务器把 <code>hello</code> 原样发回去。</li>
+<li>客户端打印接收到的数据。</li>
+</ol>
+<h3 id="63-prockecho">6.3 为什么还要看 <code>/proc/kecho</code><a class="headerlink" href="#63-prockecho" title="Permanent link">&para;</a></h3>
+<p><code>dmesg</code> 更适合看“发生了什么事件”，比如有没有连接成功、有没有收到消息。</p>
+<p><code>/proc/kecho</code> 更适合看“当前统计状态”，比如：</p>
+<ol>
+<li>当前有几个客户端。</li>
+<li>一共连接过多少次。</li>
+<li>一共收了多少个包。</li>
+<li>最近一次收到的消息是什么。</li>
+</ol>
+<p>这两个观察点配合起来，特别适合初学者理解内核模块的运行过程。</p>
+<h2 id="7">7. 实验步骤<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<p>建议你开两个终端：</p>
+<ol>
+<li>终端 A：持续观察日志。</li>
+<li>终端 B：编译、加载模块、运行客户端、卸载模块。</li>
+</ol>
+<h3 id="71">7.1 编译实验代码<a class="headerlink" href="#71" title="Permanent link">&para;</a></h3>
+<p>在项目目录执行：</p>
+<div class="highlight"><pre><span></span><code>make
+</code></pre></div>
+<p>编译成功后应该看到两个关键产物：</p>
+<ol>
+<li><code>kecho.ko</code>：内核模块文件。</li>
+<li><code>client</code>：用户态测试程序。</li>
+</ol>
+<p>如果你想清理构建产物，可以执行：</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>clean
+</code></pre></div>
+<h3 id="72">7.2 加载内核模块<a class="headerlink" href="#72" title="Permanent link">&para;</a></h3>
+<p>执行：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>insmod<span class="w"> </span>kecho.ko
+</code></pre></div>
+<p>然后确认模块是否已经加载：</p>
+<div class="highlight"><pre><span></span><code>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kecho
+</code></pre></div>
+<p>如果看到了 <code>kecho</code>，说明模块已经在内核中。</p>
+<h3 id="73">7.3 观察内核日志<a class="headerlink" href="#73" title="Permanent link">&para;</a></h3>
+<p>在终端 A 中执行：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dmesg<span class="w"> </span>-w
+</code></pre></div>
+<p>如果模块加载正常，你应该能看到类似日志：</p>
+<div class="highlight"><pre><span></span><code>[kecho] listening on 0.0.0.0:8888
+</code></pre></div>
+<p>这说明内核态服务器已经开始监听 8888 端口。</p>
+<h3 id="74-prockecho">7.4 查看 <code>/proc/kecho</code><a class="headerlink" href="#74-prockecho" title="Permanent link">&para;</a></h3>
+<p>在终端 B 中执行：</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/proc/kecho
+</code></pre></div>
+<p>第一次查看时，通常能看到类似结果：</p>
+<div class="highlight"><pre><span></span><code>Kernel Echo Server Status
+
+Listen Port      : 8888
+Current Clients  : 0
+Connect Count    : 0
+Disconnect Count : 0
+Recv Packets     : 0
+Send Packets     : 0
+Last Message     : (none)
+</code></pre></div>
+<p>这一步的意义是确认两件事：</p>
+<ol>
+<li>procfs 接口已经创建成功。</li>
+<li>模块统计信息处于初始状态。</li>
+</ol>
+<h3 id="75">7.5 运行用户态客户端测试<a class="headerlink" href="#75" title="Permanent link">&para;</a></h3>
+<p>执行：</p>
+<div class="highlight"><pre><span></span><code>./client<span class="w"> </span>hello
+</code></pre></div>
+<p>预期输出：</p>
+<div class="highlight"><pre><span></span><code>send: hello
+recv: hello
+</code></pre></div>
+<p>如果返回内容和发送内容一致，说明 echo 功能正常。</p>
+<p>你也可以发送带空格的消息：</p>
+<div class="highlight"><pre><span></span><code>./client<span class="w"> </span>hello<span class="w"> </span>kernel<span class="w"> </span>world
+</code></pre></div>
+<h3 id="76">7.6 再次查看日志和统计信息<a class="headerlink" href="#76" title="Permanent link">&para;</a></h3>
+<p>客户端运行之后，再执行一次：</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/proc/kecho
+</code></pre></div>
+<p>此时你应该看到统计值发生变化，例如：</p>
+<ol>
+<li><code>Connect Count</code> 增加。</li>
+<li><code>Disconnect Count</code> 增加。</li>
+<li><code>Recv Packets</code> 增加。</li>
+<li><code>Send Packets</code> 增加。</li>
+<li><code>Last Message</code> 变成你刚才发送的内容。</li>
+</ol>
+<p>同时，在 <code>dmesg</code> 中你也应该能看到类似日志：</p>
+<div class="highlight"><pre><span></span><code>[kecho] client connected: 127.0.0.1:xxxxx
+[kecho] recv: hello
+[kecho] client disconnected: 127.0.0.1:xxxxx
+</code></pre></div>
+<p>这里的端口号会变化，这是正常现象，因为它是客户端的临时端口。</p>
+<h3 id="77">7.7 卸载模块<a class="headerlink" href="#77" title="Permanent link">&para;</a></h3>
+<p>实验结束后执行：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>rmmod<span class="w"> </span>kecho
+</code></pre></div>
+<p>然后可以再次确认模块是否已经卸载：</p>
+<div class="highlight"><pre><span></span><code>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kecho
+</code></pre></div>
+<p>如果没有输出，说明卸载成功。</p>
+<p>你还可以再看一眼日志，通常会出现：</p>
+<div class="highlight"><pre><span></span><code>[kecho] module unloaded
+</code></pre></div>
+<h2 id="8">8. 一次完整实验可以这样做<a class="headerlink" href="#8" title="Permanent link">&para;</a></h2>
+<p>如果你想按最顺的节奏跑完整个实验，可以按下面顺序操作。</p>
+<p>终端 A：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dmesg<span class="w"> </span>-w
+</code></pre></div>
+<p>终端 B：</p>
+<div class="highlight"><pre><span></span><code>make
+sudo<span class="w"> </span>insmod<span class="w"> </span>kecho.ko
+cat<span class="w"> </span>/proc/kecho
+./client<span class="w"> </span>hello
+cat<span class="w"> </span>/proc/kecho
+sudo<span class="w"> </span>rmmod<span class="w"> </span>kecho
+</code></pre></div>
+<h2 id="9">9. 做实验时你应该关注什么<a class="headerlink" href="#9" title="Permanent link">&para;</a></h2>
+<p>初学者容易把这个实验做成“命令跑通就结束”。这还不够。你至少应该观察下面几个点：</p>
+<ol>
+<li><code>insmod</code> 之后，为什么 <code>dmesg</code> 里会出现 listening 日志。</li>
+<li>为什么 <code>/proc/kecho</code> 在没有客户端连接时，统计值全是 0。</li>
+<li>为什么执行一次 <code>./client hello</code> 后，连接数、收包数、发包数会变化。</li>
+<li>为什么客户端打印的 <code>recv: hello</code> 可以证明内核态 echo 成功。</li>
+<li>为什么卸载模块后，<code>/proc/kecho</code> 会消失。</li>
+</ol>
+<p>如果你能把这五个问题讲清楚，说明你已经真正理解了这个实验。</p>
+<h2 id="10-api">10. 实验中会用到哪些 API<a class="headerlink" href="#10-api" title="Permanent link">&para;</a></h2>
+<p>这一节是给初学者的“快速认路图”。你不需要一开始就把所有 API 记住，但最好知道它们分别属于哪一类、解决什么问题。</p>
+<h2 id="101-api">10.1 模块生命周期相关 API<a class="headerlink" href="#101-api" title="Permanent link">&para;</a></h2>
+<p>这些 API 决定模块什么时候启动、什么时候退出。</p>
+<ol>
+<li><code>module_init(kecho_init)</code>：注册模块加载时的入口函数。执行 <code>insmod kecho.ko</code> 时，最终会进入这里。</li>
+<li><code>module_exit(kecho_exit)</code>：注册模块卸载时的出口函数。执行 <code>rmmod kecho</code> 时会进入这里。</li>
+<li><code>__init</code>：标记初始化函数使用的内存可以在初始化完成后释放。</li>
+<li><code>__exit</code>：标记退出函数只在模块卸载时使用。</li>
+<li><code>MODULE_LICENSE</code>、<code>MODULE_AUTHOR</code>、<code>MODULE_DESCRIPTION</code>：给模块补充元信息。</li>
+</ol>
+<p>你可以把它们理解成“这个模块从哪里开始、到哪里结束”。</p>
+<h2 id="102-api">10.2 内核网络相关 API<a class="headerlink" href="#102-api" title="Permanent link">&para;</a></h2>
+<p>这是本实验最核心的一组 API，对应“在内核里写 TCP 服务器”。</p>
+<ol>
+<li><code>sock_create_kern</code>：在内核态创建 socket。它相当于用户态里的 <code>socket</code>。</li>
+<li><code>kernel_bind</code>：给 socket 绑定 IP 和端口。这里绑定的是 <code>0.0.0.0:8888</code>。</li>
+<li><code>kernel_listen</code>：让 socket 进入监听状态，准备接收客户端连接。</li>
+<li><code>kernel_accept</code>：接受一个客户端连接。它相当于用户态里的 <code>accept</code>。</li>
+<li><code>kernel_recvmsg</code>：从客户端读取数据。它相当于用户态里的 <code>recv</code>。</li>
+<li><code>kernel_sendmsg</code>：向客户端发送数据。它相当于用户态里的 <code>send</code>。</li>
+<li><code>sock_release</code>：释放 socket 资源。监听 socket 和客户端 socket 最后都要释放。</li>
+<li><code>htons</code>、<code>htonl</code>、<code>ntohs</code>：处理端口和地址的字节序问题。网络字节序通常是大端序，所以绑定端口和打印端口时都常会遇到它们。</li>
+</ol>
+<p>如果你只想先抓主线，可以记住下面这个顺序：</p>
+<div class="highlight"><pre><span></span><code>sock_create_kern -&gt; kernel_bind -&gt; kernel_listen -&gt; kernel_accept
+                                            -&gt; kernel_recvmsg
+                                            -&gt; kernel_sendmsg
+</code></pre></div>
+<h2 id="103-api">10.3 内核线程相关 API<a class="headerlink" href="#103-api" title="Permanent link">&para;</a></h2>
+<p>因为服务器需要持续等待连接，所以这里用了一个内核线程。</p>
+<ol>
+<li><code>kthread_run</code>：创建并启动内核线程。这里用它启动 accept 线程。</li>
+<li><code>kthread_should_stop</code>：在线程循环里检查“现在是否应该退出”。</li>
+<li><code>kthread_stop</code>：通知线程停止，并等待线程退出。</li>
+<li><code>msleep_interruptible</code>：让线程短暂休眠，避免在没有连接或没有数据时空转占满 CPU。</li>
+</ol>
+<p>这组 API 的作用可以概括为：让服务器在后台一直运行，但又能在模块卸载时干净退出。</p>
+<h2 id="104-procfs-seq_file-api">10.4 procfs 和 seq_file 相关 API<a class="headerlink" href="#104-procfs-seq_file-api" title="Permanent link">&para;</a></h2>
+<p>这组 API 用来把内核里的统计信息导出到 <code>/proc/kecho</code>，让用户可以直接 <code>cat /proc/kecho</code> 查看。</p>
+<ol>
+<li><code>proc_create</code>：创建 <code>/proc</code> 下的文件节点，这里创建的是 <code>/proc/kecho</code>。</li>
+<li><code>proc_remove</code>：删除 procfs 节点，通常在模块退出时调用。</li>
+<li><code>single_open</code>：为只读、一次性输出的 proc 文件准备打开逻辑。</li>
+<li><code>seq_read</code>：负责把内容读给用户空间。</li>
+<li><code>seq_printf</code>：按格式输出字符串到 proc 文件。</li>
+<li><code>seq_puts</code>：输出普通字符串到 proc 文件。</li>
+<li><code>seq_lseek</code>：支持文件偏移操作。</li>
+<li><code>single_release</code>：释放 <code>single_open</code> 建立的资源。</li>
+</ol>
+<p>对初学者来说，只要先理解一点就够了：<code>proc_create</code> 是“把窗口开出来”，<code>seq_printf</code> 是“往窗口里写内容”。</p>
+<h2 id="105-api">10.5 同步与共享数据相关 API<a class="headerlink" href="#105-api" title="Permanent link">&para;</a></h2>
+<p>服务器在运行时会不断修改统计信息，所以需要保护共享数据，避免并发读写出问题。</p>
+<ol>
+<li><code>mutex_init</code>：初始化互斥锁。</li>
+<li><code>mutex_lock</code>：进入临界区之前加锁。</li>
+<li><code>mutex_unlock</code>：离开临界区之后解锁。</li>
+</ol>
+<p>这里的锁主要保护这些统计字段：</p>
+<ol>
+<li>当前连接数。</li>
+<li>总连接次数。</li>
+<li>总断开次数。</li>
+<li>收发包次数。</li>
+<li>最近一次消息内容。</li>
+</ol>
+<p>初学时你可以把 <code>mutex</code> 理解成一句话：同一时刻只允许一个执行流修改这份统计数据。</p>
+<h2 id="106-api">10.6 字符串和内存处理 API<a class="headerlink" href="#106-api" title="Permanent link">&para;</a></h2>
+<p>这些 API 不算“实验主角”，但在内核代码里非常常见。</p>
+<ol>
+<li><code>memset</code>：清空结构体或缓冲区。</li>
+<li><code>memcpy</code>：复制内存数据，例如保存最近一次收到的消息。</li>
+<li><code>strscpy</code>：安全地复制字符串。</li>
+<li><code>min_t</code>：在两个值里取较小的那个，并显式指定类型。</li>
+</ol>
+<p>它们主要用于“整理数据”和“避免越界”。</p>
+<h2 id="107-api">10.7 日志和错误处理相关 API<a class="headerlink" href="#107-api" title="Permanent link">&para;</a></h2>
+<p>做内核实验时，日志比图形界面更重要。你排查问题基本都靠这类 API。</p>
+<ol>
+<li><code>pr_info</code>：打印内核日志。你在 <code>dmesg</code> 里看到的 <code>[kecho]</code> 日志就是这样出来的。</li>
+<li><code>IS_ERR</code>：判断某些返回值是不是错误指针。</li>
+<li><code>PTR_ERR</code>：把错误指针转换成具体的错误码。</li>
+</ol>
+<p>对于初学者，一个很重要的习惯是：只要模块行为不符合预期，第一时间看 <code>dmesg</code>。</p>
+<h2 id="108-api">10.8 用户态客户端相关 API<a class="headerlink" href="#108-api" title="Permanent link">&para;</a></h2>
+<p>这个实验不只有内核 API，还包含一份普通的用户态客户端代码。它的价值在于帮助你对照理解。</p>
+<ol>
+<li><code>socket</code>：创建用户态 socket。</li>
+<li><code>connect</code>：连接到服务器。</li>
+<li><code>send</code>：发送数据。</li>
+<li><code>recv</code>：接收数据。</li>
+<li><code>close</code>：关闭 socket。</li>
+<li><code>inet_pton</code>：把字符串形式的 IP 地址转换成二进制格式。</li>
+<li><code>snprintf</code>：把命令行参数拼接成一条完整消息。</li>
+<li><code>strlen</code>：计算消息长度。</li>
+</ol>
+<p>你可以把本实验简单地记成下面这组对应关系：</p>
+<ol>
+<li>用户态 <code>socket</code> 对应内核态 <code>sock_create_kern</code></li>
+<li>用户态 <code>send/recv</code> 对应内核态 <code>kernel_sendmsg/kernel_recvmsg</code></li>
+<li>用户态客户端负责发消息，内核态服务器负责原样返回</li>
+</ol>
+<h2 id="109">10.9 阅读源码时的建议顺序<a class="headerlink" href="#109" title="Permanent link">&para;</a></h2>
+<p>如果你现在就想开始读代码，建议按下面顺序看，最不容易迷路：</p>
+<ol>
+<li>先看模块入口 <code>kecho_init</code>，搞清楚模块加载后做了什么。</li>
+<li>再看 <code>kecho_start_server</code>，搞清楚 socket 是怎么创建、绑定、监听的。</li>
+<li>然后看 <code>kecho_accept_thread</code>，搞清楚客户端连接是怎么接入的。</li>
+<li>再看 <code>kecho_handle_client</code>，搞清楚 echo 是怎么完成的。</li>
+<li>最后看 <code>kecho_proc_show</code>，理解 <code>/proc/kecho</code> 为什么能显示统计信息。</li>
+<li>对照 <code>client.c</code> 再看一次，就能把用户态和内核态流程串起来。</li>
+</ol>
+<h2 id="11">11. 常见问题<a class="headerlink" href="#11" title="Permanent link">&para;</a></h2>
+<h3 id="111-make">11.1 <code>make</code> 失败，提示找不到内核头文件<a class="headerlink" href="#111-make" title="Permanent link">&para;</a></h3>
+<p>原因通常是当前内核版本对应的头文件没有安装。</p>
+<p>解决方法：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>linux-headers-<span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span>
+</code></pre></div>
+<h3 id="112-insmod">11.2 <code>insmod</code> 失败，提示权限不足<a class="headerlink" href="#112-insmod" title="Permanent link">&para;</a></h3>
+<p>内核模块加载需要管理员权限，请使用：</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>insmod<span class="w"> </span>kecho.ko
+</code></pre></div>
+<h3 id="113">11.3 客户端连接失败<a class="headerlink" href="#113" title="Permanent link">&para;</a></h3>
+<p>优先检查这几项：</p>
+<ol>
+<li>模块是否真的已经加载：<code>lsmod | grep kecho</code></li>
+<li><code>dmesg</code> 是否出现 listening 日志。</li>
+<li>是否已经误卸载模块。</li>
+<li>是否修改过端口，导致客户端和服务器端口不一致。</li>
+</ol>
+<h3 id="114-prockecho">11.4 <code>/proc/kecho</code> 不存在<a class="headerlink" href="#114-prockecho" title="Permanent link">&para;</a></h3>
+<p>通常说明模块初始化没有完整成功，或者模块已经被卸载。请先检查：</p>
+<div class="highlight"><pre><span></span><code>dmesg<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">20</span>
+</code></pre></div>
+<p>看看是否有模块启动失败日志。</p>
+<h2 id="12">12. 实验结论<a class="headerlink" href="#12" title="Permanent link">&para;</a></h2>
+<p>做完这个实验，你应该掌握下面这些最基本的能力：</p>
+<ol>
+<li>会编译并加载一个 Linux 内核模块。</li>
+<li>知道内核态也可以使用 socket API 完成网络通信。</li>
+<li>知道如何用 <code>dmesg</code> 观察模块运行过程。</li>
+<li>知道如何用 procfs 导出模块状态。</li>
+<li>能把用户态客户端与内核态服务器的交互过程串起来理解。</li>
+</ol>
+<h2 id="13">13. 可选思考题<a class="headerlink" href="#13" title="Permanent link">&para;</a></h2>
+<p>如果你做完基础实验，还可以继续思考下面几个问题：</p>
+<ol>
+<li>现在服务器一次只处理一个连接，如果想同时处理多个客户端，应该怎么改？</li>
+<li>现在统计信息只记录最后一条消息，如果想记录最近 N 条消息，应该怎么设计数据结构？</li>
+<li>现在消息长度有限，如果客户端发送更长的数据，会发生什么？</li>
+<li>如果把监听地址从 <code>0.0.0.0</code> 改成 <code>127.0.0.1</code>，行为会有什么不同？</li>
+</ol>
+<p>这些问题很适合作为下一步实验。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.top", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../mkdocs/javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
